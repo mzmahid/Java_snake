@@ -1,0 +1,4 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "workspaceKeybindings.maven_jfx.enabled": true,
+}
