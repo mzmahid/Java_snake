@@ -11,7 +11,7 @@ public class Head {
     int X;
     int Y;
     int[] motionVec = new int[2];
-    // int[] old_pos = new int[2];
+    int[] old_pos = new int[2];
 
     public void setPos(int x, int y) {
         this.X = x;
@@ -44,6 +44,7 @@ public class Head {
     }
 
     public void move(int speed) {
+        old_pos = new int[] {this.X, this.Y};
         this.X += speed * this.motionVec[0];
         this.Y += speed * this.motionVec[1];
     }

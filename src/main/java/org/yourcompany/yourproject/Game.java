@@ -19,9 +19,12 @@ public class Game extends Application {
     Canvas canvas = new Canvas(W, H);
     GraphicsContext gc = canvas.getGraphicsContext2D();
     Head head = new Head(400, 0);
+    boolean hasEater = false;
+
+    Body body = new Body();
 
     public void clear() {
-        gc.setFill(Color.BLACK); 
+        gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, W, H);
     }
     
@@ -36,6 +39,8 @@ public class Game extends Application {
                 case A -> head.setDirection("LEFT");
                 case S -> head.setDirection("DOWN");
                 case D -> head.setDirection("RIGHT");
+
+                case X -> body.grow(head);
             }
         });
 
@@ -59,14 +64,18 @@ public class Game extends Application {
 
     public void update() {
         head.move(gridSize);
+        body.move(head);
     }
 
     public void render() {
         clear();
         gc.setFill(Color.RED);
         gc.fillRect(head.X, head.Y, gridSize, gridSize);
+        gc.setFill(Color.BLUE);
+        for (int[] segment : body.bodyCords) {
+            gc.fillRect(segment[0], segment[1], gridSize, gridSize);
+        }
     }
-
     public static void main(String[] args) {
         launch(args);
     }
