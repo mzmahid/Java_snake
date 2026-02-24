@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class Game extends Application {
 
-    Board board = new Board(825, 625);
+    Board board = new Board(825, 625, 25);
     int gridSize = board.gridSize;
     int[] boardSize = board.getSize();
     int W = boardSize[0];
@@ -75,6 +75,8 @@ public class Game extends Application {
         for (int[] segment : body.bodyCords) {
             gc.fillRect(segment[0], segment[1], gridSize, gridSize);
         }
+        gc.setFill(Color.GREEN);
+        
     }
     public static void main(String[] args) {
         launch(args);

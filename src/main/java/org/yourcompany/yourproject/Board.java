@@ -1,14 +1,20 @@
 package org.yourcompany.yourproject;
 
 public class Board {
-    int gridSize = 25;
-    int W = 825;
-    int H = 625;
-    // int n = 20; 
+    public static Board current; 
+    int gridSize;
+    int W;
+    int H;
+    int gridX;
+    int gridY;
 
-    public Board(int x, int y) {
+    public Board(int x, int y, int gridSize) {
         this.W = x;
         this.H = y;
+        this.gridSize = gridSize;
+        this.gridX = W / gridSize;
+        this.gridY = H / gridSize;
+        current = this;
     }
     
 
