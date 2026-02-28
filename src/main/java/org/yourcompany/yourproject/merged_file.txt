@@ -1,0 +1,204 @@
+package org.yourcompany.yourproject;
+
+public class Board {
+    public static Board current; 
+    int gridSize;
+    int W;
+    int H;
+    int gridX;
+    int gridY;
+
+    public Board(int x, int y, int gridSize) {
+        this.W = x;
+        this.H = y;
+        this.gridSize = gridSize;
+        this.gridX = W / gridSize;
+        this.gridY = H / gridSize;
+        current = this;
+    }
+    
+
+    public int[] getSize() {
+        return new int[] {this.W, this.H};
+    }
+}
+package org.yourcompany.yourproject;
+import java.util.ArrayList;
+
+public class Body {
+    ArrayList<int[]> bodyCords = new ArrayList<>();
+    int currentIndex = 0;
+    boolean hasGrown = false;
+
+    public void grow(Head head) {
+        // bodyCords.add(head.old_pos);
+        bodyCords.add(head.old_pos);
+    }
+
+    public void move(Head head) {
+        if(bodyCords.isEmpty()) return;
+
+        bodyCords.add(0, head.old_pos);
+        if(bodyCords.size() > 1) {
+            bodyCords.remove(bodyCords.size() - 1);
+        }
+
+    }
+
+    
+}
+package org.yourcompany.yourproject;
+import java.util.Random;
+
+public class Food {
+    private Random rand = new Random();
+    int X;
+    int Y;
+
+    public Food() {
+        spawn();
+    }
+
+    void spawn() {
+        this.X = rand.nextInt(Board.current.gridX - 1) * Board.current.gridSize;
+        this.Y = rand.nextInt(Board.current.gridX - 1) * Board.current.gridSize;
+    }
+}
+package org.yourcompany.yourproject;
+
+import javafx.animation.AnimationTimer;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+public class Game extends Application {
+
+    Board board = new Board(825, 625, 25);
+    int gridSize = board.gridSize;
+    int[] boardSize = board.getSize();
+    int W = boardSize[0];
+    int H = boardSize[1];
+    Canvas canvas = new Canvas(W, H);
+    GraphicsContext gc = canvas.getGraphicsContext2D();
+    Head head = new Head(400, 0);
+    boolean hasEater = false;
+
+    Body body = new Body();
+
+    public void clear() {
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, W, H);
+    }
+    
+    @Override
+    public void start(Stage primaryStage) {
+        Pane root = new Pane(canvas);
+        Scene scene = new Scene(root);
+
+        scene.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case W -> head.setDirection("UP");
+                case A -> head.setDirection("LEFT");
+                case S -> head.setDirection("DOWN");
+                case D -> head.setDirection("RIGHT");
+
+                case X -> body.grow(head);
+            }
+        });
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Snake Game");
+        primaryStage.show();
+        loop.start();
+    }
+    private long lastUpdate = 0;
+    private final long INTERVAL = 2000_000_00L; 
+    AnimationTimer loop = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+            if(now - lastUpdate >= INTERVAL) {
+                render();
+                update();
+                lastUpdate = now;
+            }
+        }
+    };
+
+    public void update() {
+        head.move(gridSize);
+        body.move(head);
+    }
+    
+    public void render() {
+        Food food = new Food();
+        clear();
+        gc.setFill(Color.RED);
+        gc.fillRect(head.X, head.Y, gridSize, gridSize);
+        gc.setFill(Color.BLUE);
+        for (int[] segment : body.bodyCords) {
+            gc.fillRect(segment[0], segment[1], gridSize, gridSize);
+        }
+        gc.setFill(Color.GREEN);
+        gc.fillRect(food.X, food.Y, gridSize, gridSize);
+
+        
+    }
+    public static void main(String[] args) {
+        launch(args);
+    }
+}package org.yourcompany.yourproject;
+
+public class Head {
+
+    public Head(int x, int y) {
+        this.X = x;
+        this.Y = y;
+    }
+    
+
+    int X;
+    int Y;
+    int[] motionVec = new int[2];
+    int[] old_pos = new int[2];
+
+    public void setPos(int x, int y) {
+        this.X = x;
+        this.Y = y;
+    }
+
+    public int[] getPos() {
+        return new int[]{this.X, this.Y};
+    }
+    
+    public void setDirection(String direction) {
+        switch (direction) {
+            case "UP" -> {
+                this.motionVec[0] = 0;
+                this.motionVec[1] = -1;
+            }
+            case "DOWN" -> {
+                this.motionVec[0] = 0;
+                this.motionVec[1] = 1;
+            }
+            case "RIGHT" -> {
+                this.motionVec[0] = 1;
+                this.motionVec[1] = 0;
+            }
+            case "LEFT" -> {
+                this.motionVec[0] = -1;
+                this.motionVec[1] = 0;
+            }
+        }
+    }
+
+    public void move(int speed) {
+        old_pos = new int[] {this.X, this.Y};
+        this.X += speed * this.motionVec[0];
+        this.Y += speed * this.motionVec[1];
+    }
+
+}
