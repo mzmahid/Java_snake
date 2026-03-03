@@ -19,36 +19,76 @@ This project demonstrates basic game development concepts such as rendering, inp
 ## 🧩 Requirements
 
 * **Java Development Kit**
-* **Apache Maven** (for building and running)
+* **Apache Maven**
 * **JavaFX** SDK (if not bundled with your JDK)
 
 ---
 
 ## ⚙️ How to Run
 
-### 🖥️ Using Maven (recommended)
+### 🪟 On Windows
+
+1. **Install JDK 17+**
+
+   * Download from [Adoptium](https://adoptium.net) or [Oracle JDK](https://www.oracle.com/java/technologies/downloads/).
+   * After installation, open **Command Prompt** and verify:
+
+     ```bash
+     java -version
+     ```
+2. **Install Maven**
+
+   * Download from https://maven.apache.org/download.cgi.
+   * Extract and add `bin` folder to your **PATH** environment variable.
+   * Verify:
+
+     ```bash
+     mvn -v
+     ```
+3. **Clone and Run**
+
+   ```bash
+   git clone https://github.com/mzmahid/Java_snake.git
+   cd Java_snake
+   mvn clean compile exec:java
+   ```
+
+   Or, if that fails:
+
+   ```bash
+   mvn clean package
+   java -jar target/Java_snake-1.0.jar
+   ```
+
+> 💡 Tip: You can also double-click the generated `.jar` file from the `target` folder to run the game (if file associations are set correctly).
+
+---
+
+### 🖥️ Using Maven (any OS)
 
 ```bash
 # Clone the repository
 git clone https://github.com/mzmahid/Java_snake.git
 cd Java_snake
 
-# Compile and run the project
+# Compile and run
 mvn clean compile exec:java
 ```
 
-If that doesn’t work, build and run the JAR manually:
+If that doesn’t work:
 
 ```bash
 mvn clean package
 java -jar target/Java_snake-1.0.jar
 ```
 
-## 💻 Running in IDE
+---
 
-1. Open the project folder in **IntelliJ IDEA**, **VS Code**, or **Eclipse**.
-2. Let it import the Maven dependencies automatically.
-3. Run the main class (Main.java) directly.
+### 💻 Running in IDE
+
+1. Open the folder in **IntelliJ IDEA**, **VS Code**, or **Eclipse**.
+2. Import Maven dependencies automatically.
+3. Run the class containing `public static void main`.
 
 ---
 
