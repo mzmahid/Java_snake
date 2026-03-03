@@ -24,6 +24,7 @@ public class Game extends Application {
     // boolean gameOverTriggered = false;
     // long gameOverStartTime = 0;
     Food food = new Food();
+    int score = 0;
 
     Body body = new Body();
 
@@ -45,7 +46,6 @@ public class Game extends Application {
                 case S -> head.setDirection("DOWN");
                 case D -> head.setDirection("RIGHT");
 
-                case X -> body.grow(head);
             }
         });
 
@@ -73,12 +73,14 @@ public class Game extends Application {
         if (head.X == food.X && head.Y == food.Y) {
             body.grow(head);
             food.spawn();
+            score += 10;
         }
         if (checkCollision()) {
             System.out.println("Game Over!");
             clear();
             gc.setFill(Color.WHITE);
             gc.fillText("Game Over!", W / 2 - 40, H / 2);
+            gc.fillText("Score: " + score, W / 2 - 30, H / 2 + 20);
             loop.stop();
         }
     }
@@ -108,6 +110,9 @@ public class Game extends Application {
         }
         gc.setFill(Color.GREEN);
         gc.fillRect(food.X, food.Y, gridSize, gridSize);
+
+        gc.setFill(Color.WHITE);
+        gc.fillText("Score: " + score, 10, 20);
 
         
     }
