@@ -44,22 +44,11 @@ mvn clean package
 java -jar target/Java_snake-1.0.jar
 ```
 
-### 🧠 Manually (without Maven)
-
-```bash
-javac -d out src/main/java/**/*.java
-java -cp out your.main.ClassName
-```
-
-Replace `your.main.ClassName` with the actual entry class (for example, `snake.GameApp`).
-
----
-
 ## 💻 Running in IDE
 
 1. Open the project folder in **IntelliJ IDEA**, **VS Code**, or **Eclipse**.
 2. Let it import the Maven dependencies automatically.
-3. Run the main class (`SnakeGame`, `Main`, or equivalent) directly.
+3. Run the main class (Main.java) directly.
 
 ---
 
